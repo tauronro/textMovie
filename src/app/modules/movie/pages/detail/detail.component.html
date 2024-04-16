@@ -1,0 +1,76 @@
+<article
+  class="bg-white rounded-lg shadow-md p-6"
+  *ngIf="movie | async as data"
+>
+  <h1 class="text-3xl font-bold mb-4">{{ data.title }}</h1>
+
+  <div class="bg-slate-200 relative">
+    <img
+      [src]="
+        data.backdrop_path
+          ? 'https://media.themoviedb.org/t/p/original/' + data.backdrop_path
+          : '/assets/backdrop-generic.jpg'
+      "
+      alt="Póster de Avengers: Infinity War"
+      class="mb-4 blur-sm"
+    />
+    <img
+      [src]="
+        'https://media.themoviedb.org/t/p/w300_and_h450_bestv2/' +
+        data.poster_path
+      "
+      *ngIf="data.poster_path"
+      alt="Póster de Avengers: Infinity War"
+      class="mb-4 h-52 rounded-lg absolute -bottom-10 left-5"
+    />
+  </div>
+
+  <p class="mt-16 mb-4 flex gap-3">
+    <strong>Géneros:</strong>
+    <span class="inline-flex flex-wrap gap-3">
+      <label
+        *ngFor="let item of data.genres"
+        class="bg-purple-200 px-2 text-purple-950 rounded"
+        >{{ item.name }}</label
+      >
+    </span>
+  </p>
+
+  <p class="mb-4">
+    <strong>Fecha de Lanzamiento:</strong> {{ data.release_date }}
+  </p>
+
+  <p class="mb-4"><strong>Duración:</strong> {{ data.runtime }} minutos</p>
+
+  <p class="mb-4">
+    <strong>País de Producción:</strong> {{ data.origin_country }}
+  </p>
+
+  <p class="mb-4 flex gap-3">
+    <strong>Producción:</strong>
+
+    <span class="inline-flex flex-wrap gap-3">
+      <label
+        *ngFor="let item of data.production_companies"
+        class="bg-purple-200 px-2 text-purple-950 rounded"
+        >{{ item.name }}</label
+      >
+    </span>
+  </p>
+
+  <p class="mb-4">
+    <strong>Idioma Original:</strong> {{ data.original_language }}
+  </p>
+
+  <p class="mb-4"><strong>ID de IMDB:</strong> {{ data.imdb_id }}</p>
+
+  <p class="mb-4"><strong>Calificación:</strong> {{ data.popularity }}</p>
+
+  <div class="my-10 text-center">
+    <a
+      routerLink="/"
+      class="bg-slate-300 font-semibold font-sans border-2 border-slate-900 text-slate-950 rounded p-3 hover:shadow hover:bg-slate-200 transition-all duration-300 ease-linear"
+      >Volver a buscar</a
+    >
+  </div>
+</article>

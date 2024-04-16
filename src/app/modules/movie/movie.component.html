@@ -1,0 +1,45 @@
+<div>
+  <mat-form-field appearance="fill" class="w-full">
+    <mat-label>Busca tu película favorita</mat-label>
+    <input
+      matInput
+      type="search"
+      (change)="search($event.target)"
+      #inputSearch
+      placeholder="Buscar..."
+    />
+  </mat-form-field>
+
+  <div *ngIf="movies | async as response">
+    <p *ngIf="response.total_results" class="my-1 text-zinc-600">
+      Se encontraron <strong>{{ response.total_results }}</strong> resultados.
+    </p>
+
+    <ul
+      *ngIf="response.results.length > 0"
+      class="rounded-md bg-slate-200 h-96 overflow-auto"
+    >
+      <li *ngFor="let movie of response.results">
+        <a
+          [routerLink]="[movie.id]"
+          class="flex py-3 px-5 gap-3 hover:bg-slate-300 transition-colors duration-300 ease-out"
+        >
+          {{ movie.title }}
+          <strong *ngIf="movie.release_date"
+            >({{ movie.release_date | date : "YYYY" }})</strong
+          >
+        </a>
+      </li>
+    </ul>
+
+    <mat-paginator
+      *ngIf="response.total_pages > 0"
+      [pageIndex]="pageIndex"
+      [length]="response.total_pages"
+      [pageSizeOptions]="[9, 45, 90]"
+      [hidePageSize]="true"
+      aria-label="Seleccione una página"
+      (page)="handlePageEvent($event); search(inputSearch, $event.pageIndex)"
+    />
+  </div>
+</div>
